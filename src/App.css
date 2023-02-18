@@ -1,38 +1,55 @@
-.App {
-  text-align: center;
+/* 路由前进转场动画 */
+.app-push-enter {
+    opacity: 0;
+    transform: translateX(100%);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app-push-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 500ms;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.app-push-exit {
+    opacity: 1;
+    transform: translateX(0);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.app-push-exit-active {
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: all 500ms;
 }
 
-.App-link {
-  color: #61dafb;
+/* 路由后退转场动画 */
+.app-pop-enter {
+    opacity: 0;
+    transform: translateX(-100%);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.app-pop-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 500ms;
+}
+
+.app-pop-exit {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.app-pop-exit-active {
+    opacity: 0;
+    transform: translate(100%);
+    transition: all 500ms;
+}
+
+/* 页面基本样式 */
+.page-primary {
+    @apply w-full h-screen;
+}
+
+/* 按钮基本样式 */
+.btn-primary {
+    @apply font-medium text-center text-white transition-colors duration-200 transform bg-blue-600 rounded-sm lg:w-auto lg:mt-0 lg:ml-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500;
 }
