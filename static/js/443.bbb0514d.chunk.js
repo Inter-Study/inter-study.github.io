@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkinter_study=self.webpackChunkinter_study||[]).push([[443],{7443:function(t,e,s){t.exports=s.p+"static/media/inter-study.50a3e89b201f761dd1af.svg"}}]);

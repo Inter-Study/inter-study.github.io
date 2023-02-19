@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkinter_study=self.webpackChunkinter_study||[]).push([[700],{9700:function(t,s,e){t.exports=e.p+"static/media/test-icon.6d630dc9276a9c327874.svg"}}]);

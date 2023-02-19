@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkinter_study=self.webpackChunkinter_study||[]).push([[370],{2370:function(e,s,t){e.exports=t.p+"static/media/angle-left-solid.6873ff57f58b609aaa19.svg"}}]);
