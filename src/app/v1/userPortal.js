@@ -275,9 +275,9 @@ export default class userPortal extends Component {
               })
             : errorAlert(
                   `失败`,
-                  `很遗憾，你的浏览器不受本站点支持<br />
-                  请换用最新版本 Chrome 浏览器<br />
-                  你可在 Google Play 或 App Store 中取得它`
+                  `很遗憾，此浏览器不受支持<br />
+                  推荐最新版本 Chrome 浏览器<br />
+                  可在 Google Play 中取得`
               );
     };
 
