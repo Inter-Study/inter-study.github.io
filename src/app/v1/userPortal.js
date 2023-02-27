@@ -206,7 +206,7 @@ export default class userPortal extends Component {
                                             style="padding-top: 20px"
                                             poster="${require("../../assets/image/testcard.png")}"
                                         ></video>`,
-                                        `确定`,
+                                        `完成`,
                                         ``,
                                         () => {
                                             if (this.state.webcamOn) {
@@ -255,7 +255,7 @@ export default class userPortal extends Component {
                                             style="padding-top: 20px"
                                             poster="${require("../../assets/image/testcard.png")}"
                                         ></video>`,
-                                        `确定`,
+                                        `完成`,
                                         ``,
                                         () => {
                                             if (this.state.webcamOn) {
@@ -276,34 +276,34 @@ export default class userPortal extends Component {
                     id: "bluetooth",
                     text: [
                         {
-                            novice: `接下来要获取蓝牙权限<br />`,
-                            common: `接下来要获取蓝牙权限<br />`,
+                            novice: `请为本应用授予蓝牙权限 📶<br />`,
+                            common: `请为本应用授予蓝牙权限 📶<br />`,
+                        },
+                        {
+                            novice: `⌚ 蓝牙用于同智慧手环通讯<br />`,
+                            common: `⌚ 蓝牙用于同智慧手环通讯<br />`,
+                        },
+                        {
+                            novice: `手环会在你分心时启动电击 😶<br />`,
+                            common: `手环会在你分心时启动电击 😶<br />`,
+                        },
+                        {
+                            novice: `🔖 蓝牙手环设备名位于包装盒上<br />`,
+                            common: `🔖 蓝牙手环设备名位于包装盒上<br />`,
                         },
                     ],
                     button: [
                         {
                             novice: {
-                                text: `配对`,
+                                text: `手环配对`,
                                 click: (e) => {
-                                    // timerAlert(
-                                    //     `稍等`,
-                                    //     `正在检查浏览器兼容性`,
-                                    //     1000,
-                                    //     this.isSupport
-                                    // );
-                                    console.log("配对");
+                                    navigator.bluetooth.requestDevice();
                                 },
                             },
                             common: {
-                                text: `配对`,
+                                text: `手环配对`,
                                 click: (e) => {
-                                    // timerAlert(
-                                    //     `稍等`,
-                                    //     `正在检查浏览器兼容性`,
-                                    //     1000,
-                                    //     this.isSupport
-                                    // );
-                                    console.log("配对");
+                                    navigator.bluetooth.requestDevice();
                                 },
                             },
                         },

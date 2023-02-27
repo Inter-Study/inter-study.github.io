@@ -12,7 +12,8 @@ const AppConfig = {
         notification: 800,
     },
     router: "hash",
-    environment: "development",
+    // environment: "development",
+    environment: "production",
 };
 
 const LandingConfig = {
@@ -83,6 +84,11 @@ const EntryConfig = {
         {
             name: "用户偏好",
             path: "/v1/preference",
+            type: "link",
+        },
+        {
+            name: "用户活动",
+            path: "/v1/activity",
             type: "link",
         },
         {
