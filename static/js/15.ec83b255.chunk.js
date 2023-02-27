@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkinter_study=self.webpackChunkinter_study||[]).push([[15],{3015:function(t,e,n){n.r(e);e.default=function(){return"mediaDevices"in navigator&&"bluetooth"in navigator}}}]);
