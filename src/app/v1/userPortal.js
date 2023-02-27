@@ -8,7 +8,14 @@ import {
 } from "../../helpers/userPref";
 import fakeName from "../../helpers/fakeName";
 import browserCheck from "../../helpers/browserCheck";
-import { errorAlert, successAlert, timerAlert } from "../../helpers/sweetAlert";
+import {
+    confirmAlert,
+    errorAlert,
+    successAlert,
+    timerAlert,
+    toastAlert,
+} from "../../helpers/sweetAlert";
+import getWebcam from "../../helpers/getWebcam";
 
 export default class userPortal extends Component {
     constructor(props) {
@@ -17,6 +24,8 @@ export default class userPortal extends Component {
             firstRun: true,
             userPref: {},
             userName: fakeName(),
+            webcamOn: false,
+            bluethOn: false,
             wizardList: [
                 {
                     id: "welcome",
@@ -44,7 +53,7 @@ export default class userPortal extends Component {
                                 },
                             },
                             common: {
-                                text: `进入状态`,
+                                text: `立刻进入`,
                                 click: (e) => {
                                     this.setBlock("welcome", false);
                                     this.setBlock("support", true);
@@ -119,8 +128,8 @@ export default class userPortal extends Component {
                                 text: `检查兼容性`,
                                 click: (e) => {
                                     timerAlert(
-                                        "稍等",
-                                        "正在检查浏览器兼容性",
+                                        `稍等`,
+                                        `正在检查浏览器兼容性`,
                                         1000,
                                         this.isSupport
                                     );
@@ -130,8 +139,8 @@ export default class userPortal extends Component {
                                 text: `检查兼容性`,
                                 click: (e) => {
                                     timerAlert(
-                                        "稍等",
-                                        "正在检查浏览器兼容性",
+                                        `稍等`,
+                                        `正在检查浏览器兼容性`,
                                         1000,
                                         this.isSupport
                                     );
@@ -165,23 +174,130 @@ export default class userPortal extends Component {
                             novice: {
                                 text: `授予权限`,
                                 click: (e) => {
-                                    timerAlert(
-                                        "稍等",
-                                        "正在检查浏览器兼容性，这需要一些时间",
-                                        2000,
-                                        this.isSupport
+                                    setTimeout(
+                                        () =>
+                                            getWebcam("webcam").catch(() =>
+                                                toastAlert(
+                                                    "索权失败",
+                                                    "请检查浏览器权限",
+                                                    "error",
+                                                    1000
+                                                )
+                                            ),
+                                        100
+                                    );
+                                    confirmAlert(
+                                        `授权`,
+                                        `请授予本页面摄像头权限<br />
+                                        当看到下方出现人像后<br />
+                                        则说明授权成功<br />
+                                        <video
+                                            autoplay
+                                            playsinline
+                                            id="webcam"
+                                            width="640"
+                                            height="480"
+                                            style="padding-top: 20px"
+                                            poster="${require("../../assets/image/testcard.png")}"
+                                        ></video>`,
+                                        `确定`,
+                                        ``,
+                                        () => {
+                                            if (this.state.webcamOn) {
+                                                this.setBlock("webcam", false);
+                                                this.setBlock(
+                                                    "bluetooth",
+                                                    true
+                                                );
+                                            }
+                                        }
                                     );
                                 },
                             },
                             common: {
                                 text: `授予权限`,
                                 click: (e) => {
-                                    timerAlert(
-                                        "稍等",
-                                        "正在检查浏览器兼容性，这需要一些时间",
-                                        2000,
-                                        this.isSupport
+                                    setTimeout(
+                                        () =>
+                                            getWebcam("webcam")
+                                                .then(() =>
+                                                    this.setState({
+                                                        webcamOn: true,
+                                                    })
+                                                )
+                                                .catch(() =>
+                                                    toastAlert(
+                                                        "索权失败",
+                                                        "请检查浏览器权限",
+                                                        "error",
+                                                        1000
+                                                    )
+                                                ),
+                                        100
                                     );
+                                    confirmAlert(
+                                        `授权`,
+                                        `请授予本页面摄像头权限<br />
+                                        当看到下方出现人像后<br />
+                                        则说明授权成功<br />
+                                        <video
+                                            autoplay
+                                            playsinline
+                                            id="webcam"
+                                            width="640"
+                                            height="480"
+                                            style="padding-top: 20px"
+                                            poster="${require("../../assets/image/testcard.png")}"
+                                        ></video>`,
+                                        `确定`,
+                                        ``,
+                                        () => {
+                                            if (this.state.webcamOn) {
+                                                this.setBlock("webcam", false);
+                                                this.setBlock(
+                                                    "bluetooth",
+                                                    true
+                                                );
+                                            }
+                                        }
+                                    );
+                                },
+                            },
+                        },
+                    ],
+                },
+                {
+                    id: "bluetooth",
+                    text: [
+                        {
+                            novice: `接下来要获取蓝牙权限<br />`,
+                            common: `接下来要获取蓝牙权限<br />`,
+                        },
+                    ],
+                    button: [
+                        {
+                            novice: {
+                                text: `配对`,
+                                click: (e) => {
+                                    // timerAlert(
+                                    //     `稍等`,
+                                    //     `正在检查浏览器兼容性`,
+                                    //     1000,
+                                    //     this.isSupport
+                                    // );
+                                    console.log("配对");
+                                },
+                            },
+                            common: {
+                                text: `配对`,
+                                click: (e) => {
+                                    // timerAlert(
+                                    //     `稍等`,
+                                    //     `正在检查浏览器兼容性`,
+                                    //     1000,
+                                    //     this.isSupport
+                                    // );
+                                    console.log("配对");
                                 },
                             },
                         },
@@ -259,7 +375,6 @@ export default class userPortal extends Component {
         this.setState({
             userPref: Object.assign(this.state.userPref, data),
         });
-
         setUserPref(data);
     };
 
@@ -288,7 +403,6 @@ export default class userPortal extends Component {
                 userPref: getUserPref(),
             });
         }
-
         this.setBlock(this.state.wizardList[0].id, true);
     }
 
@@ -301,7 +415,7 @@ export default class userPortal extends Component {
                         logo={AppConfig.site.logo}
                         list={EntryConfig.menu}
                     />
-                    <div className="overflow-hidden text-center mx-auto max-w-2xl py-32 lg:py-48 text-gray-200 lg:text-3xl text-2xl">
+                    <div className="overflow-hidden text-center mx-auto max-w-2xl py-32 text-gray-200 lg:text-3xl text-2xl">
                         {this.state.wizardList.map((item, index) => (
                             <div className="flex flex-col gap-4" key={index}>
                                 {item.text.map((_item, _index) => (

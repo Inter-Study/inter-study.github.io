@@ -12,6 +12,7 @@ const AppConfig = {
         notification: 800,
     },
     router: "hash",
+    environment: "development",
 };
 
 const LandingConfig = {

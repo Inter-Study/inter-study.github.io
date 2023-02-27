@@ -7,6 +7,7 @@ const successAlert = (title, html) => {
         html: html,
         icon: "success",
         confirmButtonText: "确定",
+        allowOutsideClick: false,
     });
 };
 
@@ -17,6 +18,7 @@ const errorAlert = (title, html) => {
         html: html,
         icon: "error",
         confirmButtonText: "确定",
+        allowOutsideClick: false,
     });
 };
 
@@ -27,6 +29,7 @@ const warningAlert = (title, html) => {
         html: html,
         icon: "warning",
         confirmButtonText: "确定",
+        allowOutsideClick: false,
     });
 };
 
@@ -37,6 +40,7 @@ const infoAlert = (title, html) => {
         html: html,
         icon: "info",
         confirmButtonText: "确定",
+        allowOutsideClick: false,
     });
 };
 
@@ -52,11 +56,12 @@ const confirmAlert = (
         title: title,
         html: html,
         icon: "warning",
-        showCancelButton: true,
+        showCancelButton: cancelButtonText.length > 0 ? true : false,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText,
-        cancelButtonText,
+        allowOutsideClick: false,
+        cancelButtonText: cancelButtonText,
+        confirmButtonText: confirmButtonText,
     }).then((result) => {
         if (result.value) {
             callback();
@@ -72,6 +77,7 @@ const timerAlert = async (title, html, timer, callback) => {
         html: html,
         timer: timer,
         timerProgressBar: true,
+        allowOutsideClick: false,
         didOpen: () => {
             Swal.showLoading();
         },
@@ -90,7 +96,8 @@ const toastAlert = (title, html, icon, timer) => {
         toast: true,
         position: "top-end",
         showConfirmButton: false,
-        timer,
+        allowOutsideClick: false,
+        timer: timer,
         timerProgressBar: true,
         didOpen: (toast) => {
             toast.addEventListener("mouseenter", Swal.stopTimer);
