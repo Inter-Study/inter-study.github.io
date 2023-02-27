@@ -176,14 +176,20 @@ export default class userPortal extends Component {
                                 click: (e) => {
                                     setTimeout(
                                         () =>
-                                            getWebcam("webcam").catch(() =>
-                                                toastAlert(
-                                                    "索权失败",
-                                                    "请检查浏览器权限",
-                                                    "error",
-                                                    1000
+                                            getWebcam("webcam")
+                                                .then(() =>
+                                                    this.setState({
+                                                        webcamOn: true,
+                                                    })
                                                 )
-                                            ),
+                                                .catch(() =>
+                                                    toastAlert(
+                                                        "索权失败",
+                                                        "请检查浏览器权限",
+                                                        "error",
+                                                        1000
+                                                    )
+                                                ),
                                         100
                                     );
                                     confirmAlert(
