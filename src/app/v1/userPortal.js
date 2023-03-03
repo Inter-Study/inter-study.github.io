@@ -301,7 +301,12 @@ export default class userPortal extends Component {
                                 click: (e) => {
                                     pairDevice(
                                         "BT",
-                                        (e) => console.log(e.target.value),
+                                        (e) =>
+                                            console.log(
+                                                new TextDecoder("utf-8").decode(
+                                                    e.target.value
+                                                )
+                                            ),
                                         (_) => console.log("Disconnect")
                                     ).then((dev) => {
                                         dev.characteristic.writeValueWithoutResponse(
@@ -321,7 +326,12 @@ export default class userPortal extends Component {
                                 click: (e) => {
                                     pairDevice(
                                         "BT",
-                                        (e) => console.log(e.target.value),
+                                        (e) =>
+                                            console.log(
+                                                new TextDecoder("utf-8").decode(
+                                                    e.target.value
+                                                )
+                                            ),
                                         (_) => console.log("Disconnect")
                                     ).then((dev) => {
                                         dev.characteristic.writeValueWithoutResponse(
