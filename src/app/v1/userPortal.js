@@ -319,6 +319,12 @@ export default class userPortal extends Component {
                                             )
                                     )
                                         .then((dev) => {
+                                            toastAlert(
+                                                "成功",
+                                                "一切顺利，手环配对成功",
+                                                "success",
+                                                1000
+                                            );
                                             dev.characteristic.writeValueWithoutResponse(
                                                 new TextEncoder("utf-8").encode(
                                                     new Date() + " - Test\r\n"
@@ -362,6 +368,12 @@ export default class userPortal extends Component {
                                             )
                                     )
                                         .then((dev) => {
+                                            toastAlert(
+                                                "成功",
+                                                "一切顺利，手环配对成功",
+                                                "success",
+                                                1000
+                                            );
                                             dev.characteristic.writeValueWithoutResponse(
                                                 new TextEncoder("utf-8").encode(
                                                     new Date() + " - Test\r\n"
