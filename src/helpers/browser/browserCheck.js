@@ -1,4 +1,4 @@
-import AppConfig from "../config";
+import AppConfig from "../../config";
 
 // 对浏览器进行检测
 const browserCheck = () => {

@@ -1,6 +1,6 @@
 import { Component } from "react";
 import AppConfig from "../config";
-import redirectRouter from "../helpers/redirectRouter";
+import redirectRouter from "../helpers/router/redirectRouter";
 
 // 重新实现 Navigate 组件
 export default class Navigate extends Component {

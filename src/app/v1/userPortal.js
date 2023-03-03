@@ -5,17 +5,18 @@ import {
     checkUserPref,
     getUserPref,
     setUserPref,
-} from "../../helpers/userPref";
-import fakeName from "../../helpers/fakeName";
-import browserCheck from "../../helpers/browserCheck";
+} from "../../helpers/browser/userPref";
+import fakeName from "../../helpers/utilities/fakeName";
+import browserCheck from "../../helpers/browser/browserCheck";
 import {
     confirmAlert,
     errorAlert,
     successAlert,
     timerAlert,
     toastAlert,
-} from "../../helpers/sweetAlert";
-import getWebcam from "../../helpers/getWebcam";
+} from "../../helpers/alerts/sweetAlert";
+import getWebcam from "../../helpers/camera/getWebcam";
+import pairDevice from "../../helpers/bluetooth/pairDevice";
 
 export default class userPortal extends Component {
     constructor(props) {
@@ -26,6 +27,7 @@ export default class userPortal extends Component {
             userName: fakeName(),
             webcamOn: false,
             bluethOn: false,
+            bluethDevice: null,
             wizardList: [
                 {
                     id: "welcome",
@@ -297,13 +299,71 @@ export default class userPortal extends Component {
                             novice: {
                                 text: `手环配对`,
                                 click: (e) => {
-                                    navigator.bluetooth.requestDevice();
+                                    pairDevice(
+                                        "BT",
+                                        (e) => console.log(e.target.value),
+                                        (_) => console.log("Disconnect")
+                                    ).then((dev) => {
+                                        dev.characteristic.writeValueWithoutResponse(
+                                            new TextEncoder("utf-8").encode(
+                                                new Date() + " - Test\r\n"
+                                            )
+                                        );
+                                        this.setState({
+                                            bluethOn: true,
+                                            bluethDevice: dev,
+                                        });
+                                    });
                                 },
                             },
                             common: {
                                 text: `手环配对`,
                                 click: (e) => {
-                                    navigator.bluetooth.requestDevice();
+                                    pairDevice(
+                                        "BT",
+                                        (e) => console.log(e.target.value),
+                                        (_) => console.log("Disconnect")
+                                    ).then((dev) => {
+                                        dev.characteristic.writeValueWithoutResponse(
+                                            new TextEncoder("utf-8").encode(
+                                                new Date() + " - Test\r\n"
+                                            )
+                                        );
+                                        this.setState({
+                                            bluethOn: true,
+                                            bluethDevice: dev,
+                                        });
+                                    });
+                                },
+                            },
+                        },
+                        {
+                            novice: {
+                                text: `测试数据`,
+                                click: (e) => {
+                                    if (this.state.bluethOn) {
+                                        this.state.bluethDevice.characteristic.writeValueWithoutResponse(
+                                            new TextEncoder("utf-8").encode(
+                                                new Date() + "\r\n"
+                                            )
+                                        );
+                                    } else {
+                                        errorAlert(`错误`, `请先配对手环`);
+                                    }
+                                },
+                            },
+                            common: {
+                                text: `测试数据`,
+                                click: (e) => {
+                                    if (this.state.bluethOn) {
+                                        this.state.bluethDevice.characteristic.writeValueWithoutResponse(
+                                            new TextEncoder("utf-8").encode(
+                                                new Date() + "\r\n"
+                                            )
+                                        );
+                                    } else {
+                                        errorAlert(`错误`, `请先配对手环`);
+                                    }
                                 },
                             },
                         },
@@ -373,7 +433,6 @@ export default class userPortal extends Component {
                 1000
             );
         }
-
         return name;
     };
 

@@ -6,7 +6,7 @@ import {
     Route,
 } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import withRouter from "./helpers/withRouter";
+import withRouter from "./helpers/router/withRouter";
 import NotFound from "./components/NotFound";
 import Spinner from "./components/Spinner";
 import RouterConfig, { Routes } from "./router";
