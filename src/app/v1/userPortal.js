@@ -186,8 +186,8 @@ export default class userPortal extends Component {
                                                 )
                                                 .catch(() =>
                                                     toastAlert(
-                                                        "索权失败",
-                                                        "请检查浏览器权限",
+                                                        "失败",
+                                                        "索权失败，请检查浏览器权限",
                                                         "error",
                                                         1000
                                                     )
@@ -235,8 +235,8 @@ export default class userPortal extends Component {
                                                 )
                                                 .catch(() =>
                                                     toastAlert(
-                                                        "索权失败",
-                                                        "请检查浏览器权限",
+                                                        "失败",
+                                                        "索权失败，请检查浏览器权限",
                                                         "error",
                                                         1000
                                                     )
@@ -302,23 +302,41 @@ export default class userPortal extends Component {
                                     pairDevice(
                                         "BT",
                                         (e) =>
-                                            console.log(
-                                                new TextDecoder("utf-8").decode(
-                                                    e.target.value
-                                                )
+                                            toastAlert(
+                                                "提示",
+                                                `收到资料：${new TextDecoder(
+                                                    "utf-8"
+                                                ).decode(e.target.value)}`,
+                                                "info",
+                                                1000
                                             ),
-                                        (_) => console.log("Disconnect")
-                                    ).then((dev) => {
-                                        dev.characteristic.writeValueWithoutResponse(
-                                            new TextEncoder("utf-8").encode(
-                                                new Date() + " - Test\r\n"
+                                        (_) =>
+                                            toastAlert(
+                                                "注意",
+                                                "设备刚刚掉线了",
+                                                "warning",
+                                                1000
+                                            )
+                                    )
+                                        .then((dev) => {
+                                            dev.characteristic.writeValueWithoutResponse(
+                                                new TextEncoder("utf-8").encode(
+                                                    new Date() + " - Test\r\n"
+                                                )
+                                            );
+                                            this.setState({
+                                                bluethOn: true,
+                                                bluethDevice: dev,
+                                            });
+                                        })
+                                        .catch(() =>
+                                            toastAlert(
+                                                "失败",
+                                                "配对失败，请尝试重新配对",
+                                                "error",
+                                                1000
                                             )
                                         );
-                                        this.setState({
-                                            bluethOn: true,
-                                            bluethDevice: dev,
-                                        });
-                                    });
                                 },
                             },
                             common: {
@@ -327,23 +345,41 @@ export default class userPortal extends Component {
                                     pairDevice(
                                         "BT",
                                         (e) =>
-                                            console.log(
-                                                new TextDecoder("utf-8").decode(
-                                                    e.target.value
-                                                )
+                                            toastAlert(
+                                                "提示",
+                                                `收到资料：${new TextDecoder(
+                                                    "utf-8"
+                                                ).decode(e.target.value)}`,
+                                                "info",
+                                                1000
                                             ),
-                                        (_) => console.log("Disconnect")
-                                    ).then((dev) => {
-                                        dev.characteristic.writeValueWithoutResponse(
-                                            new TextEncoder("utf-8").encode(
-                                                new Date() + " - Test\r\n"
+                                        (_) =>
+                                            toastAlert(
+                                                "注意",
+                                                "设备刚刚掉线了",
+                                                "warning",
+                                                1000
+                                            )
+                                    )
+                                        .then((dev) => {
+                                            dev.characteristic.writeValueWithoutResponse(
+                                                new TextEncoder("utf-8").encode(
+                                                    new Date() + " - Test\r\n"
+                                                )
+                                            );
+                                            this.setState({
+                                                bluethOn: true,
+                                                bluethDevice: dev,
+                                            });
+                                        })
+                                        .catch(() =>
+                                            toastAlert(
+                                                "失败",
+                                                "配对失败，请尝试重新配对",
+                                                "error",
+                                                1000
                                             )
                                         );
-                                        this.setState({
-                                            bluethOn: true,
-                                            bluethDevice: dev,
-                                        });
-                                    });
                                 },
                             },
                         },
