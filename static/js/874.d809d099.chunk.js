@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkinter_study=self.webpackChunkinter_study||[]).push([[874],{2874:function(t,u,e){e.r(u);u.default=function(){}}}]);

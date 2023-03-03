@@ -1,0 +1,1 @@
+(self.webpackChunkinter_study=self.webpackChunkinter_study||[]).push([[196],{2196:function(){}}]);
