@@ -1,23 +1,24 @@
 {
   "files": {
-    "main.css": "./static/css/main.bdab142c.css",
-    "main.js": "./static/js/main.6d02b495.js",
+    "main.css": "./static/css/main.c44c3b64.css",
+    "main.js": "./static/js/main.f4f99ee4.js",
     "static/js/355.f3e4c768.chunk.js": "./static/js/355.f3e4c768.chunk.js",
     "static/js/8.cb1fcac0.chunk.js": "./static/js/8.cb1fcac0.chunk.js",
     "static/js/655.642f6c09.chunk.js": "./static/js/655.642f6c09.chunk.js",
     "static/js/833.59b65f06.chunk.js": "./static/js/833.59b65f06.chunk.js",
-    "static/js/829.5cb6ea5b.chunk.js": "./static/js/829.5cb6ea5b.chunk.js",
-    "static/js/5.930fe263.chunk.js": "./static/js/5.930fe263.chunk.js",
+    "static/js/193.33a129b6.chunk.js": "./static/js/193.33a129b6.chunk.js",
+    "static/js/5.24e1e50c.chunk.js": "./static/js/5.24e1e50c.chunk.js",
     "static/js/80.be323bc3.chunk.js": "./static/js/80.be323bc3.chunk.js",
     "static/js/370.3ade6e6a.chunk.js": "./static/js/370.3ade6e6a.chunk.js",
     "static/js/443.bbb0514d.chunk.js": "./static/js/443.bbb0514d.chunk.js",
     "static/js/700.5c25a0b8.chunk.js": "./static/js/700.5c25a0b8.chunk.js",
     "static/js/711.0e0f6b72.chunk.js": "./static/js/711.0e0f6b72.chunk.js",
     "static/js/526.19eae79f.chunk.js": "./static/js/526.19eae79f.chunk.js",
+    "static/js/41.1e15a631.chunk.js": "./static/js/41.1e15a631.chunk.js",
     "static/js/651.89af62e4.chunk.js": "./static/js/651.89af62e4.chunk.js",
-    "static/js/209.25f5b77a.chunk.js": "./static/js/209.25f5b77a.chunk.js",
+    "static/js/209.b5e4483c.chunk.js": "./static/js/209.b5e4483c.chunk.js",
     "static/js/196.5ebb9a4d.chunk.js": "./static/js/196.5ebb9a4d.chunk.js",
-    "static/js/35.85e08dfa.chunk.js": "./static/js/35.85e08dfa.chunk.js",
+    "static/js/35.0d2aca3b.chunk.js": "./static/js/35.0d2aca3b.chunk.js",
     "static/js/823.9905a0e3.chunk.js": "./static/js/823.9905a0e3.chunk.js",
     "static/js/642.a7040634.chunk.js": "./static/js/642.a7040634.chunk.js",
     "static/js/298.41077cec.chunk.js": "./static/js/298.41077cec.chunk.js",
@@ -32,7 +33,7 @@
     "static/media/angle-left-solid.svg": "./static/media/angle-left-solid.6873ff57f58b609aaa19.svg"
   },
   "entrypoints": [
-    "static/css/main.bdab142c.css",
-    "static/js/main.6d02b495.js"
+    "static/css/main.c44c3b64.css",
+    "static/js/main.f4f99ee4.js"
   ]
 }
