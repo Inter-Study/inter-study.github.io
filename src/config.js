@@ -12,8 +12,8 @@ const AppConfig = {
         notification: 800,
     },
     router: "hash",
-    // environment: "development",
-    environment: "production",
+    environment: "development",
+    // environment: "production",
 };
 
 const LandingConfig = {
@@ -99,5 +99,12 @@ const EntryConfig = {
     ],
 };
 
+// 蓝牙透传 UUID
+const BluetoothConfig = {
+    filters: [{ namePrefix: "BT" }, { namePrefix: "JDY" }],
+    service: "0000ffe0-0000-1000-8000-00805f9b34fb",
+    characteristic: "0000ffe1-0000-1000-8000-00805f9b34fb",
+};
+
 export default AppConfig;
-export { LandingConfig, EntryConfig };
+export { LandingConfig, EntryConfig, BluetoothConfig };

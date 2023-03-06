@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import MegaMenu from "../../components/MegaMenu";
-import AppConfig, { EntryConfig } from "../../config";
+import AppConfig, { BluetoothConfig, EntryConfig } from "../../config";
 import {
     checkUserPref,
     getUserPref,
@@ -11,14 +12,16 @@ import browserCheck from "../../helpers/browser/browserCheck";
 import {
     confirmAlert,
     errorAlert,
+    inputAlert,
     successAlert,
     timerAlert,
     toastAlert,
 } from "../../helpers/alerts/sweetAlert";
 import getWebcam from "../../helpers/camera/getWebcam";
 import pairDevice from "../../helpers/bluetooth/pairDevice";
+import redirectRouter from "../../helpers/router/redirectRouter";
 
-export default class userPortal extends Component {
+class userPortal extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -28,6 +31,7 @@ export default class userPortal extends Component {
             webcamOn: false,
             bluethOn: false,
             bluethDevice: null,
+            focusDuration: 0,
             wizardList: [
                 {
                     id: "welcome",
@@ -49,14 +53,14 @@ export default class userPortal extends Component {
                         {
                             novice: {
                                 text: `开始设定`,
-                                click: (e) => {
+                                click: (_) => {
                                     this.setBlock("welcome", false);
                                     this.setBlock("initilize", true);
                                 },
                             },
                             common: {
                                 text: `立刻进入`,
-                                click: (e) => {
+                                click: (_) => {
                                     this.setBlock("welcome", false);
                                     this.setBlock("support", true);
                                 },
@@ -92,14 +96,14 @@ export default class userPortal extends Component {
                         {
                             novice: {
                                 text: `好的，没问题`,
-                                click: (e) => {
+                                click: (_) => {
                                     this.setBlock("initilize", false);
                                     this.setBlock("support", true);
                                 },
                             },
                             common: {
                                 text: ``,
-                                click: (e) => null,
+                                click: (_) => null,
                             },
                         },
                     ],
@@ -128,7 +132,7 @@ export default class userPortal extends Component {
                         {
                             novice: {
                                 text: `检查兼容性`,
-                                click: (e) => {
+                                click: (_) => {
                                     timerAlert(
                                         `稍等`,
                                         `正在检查浏览器兼容性`,
@@ -139,7 +143,7 @@ export default class userPortal extends Component {
                             },
                             common: {
                                 text: `检查兼容性`,
-                                click: (e) => {
+                                click: (_) => {
                                     timerAlert(
                                         `稍等`,
                                         `正在检查浏览器兼容性`,
@@ -175,15 +179,15 @@ export default class userPortal extends Component {
                         {
                             novice: {
                                 text: `授予权限`,
-                                click: (e) => {
+                                click: (_) => {
                                     setTimeout(
                                         () =>
                                             getWebcam("webcam")
-                                                .then(() =>
+                                                .then(() => {
                                                     this.setState({
                                                         webcamOn: true,
-                                                    })
-                                                )
+                                                    });
+                                                })
                                                 .catch(() =>
                                                     toastAlert(
                                                         "失败",
@@ -224,15 +228,15 @@ export default class userPortal extends Component {
                             },
                             common: {
                                 text: `授予权限`,
-                                click: (e) => {
+                                click: (_) => {
                                     setTimeout(
                                         () =>
                                             getWebcam("webcam")
-                                                .then(() =>
+                                                .then(() => {
                                                     this.setState({
                                                         webcamOn: true,
-                                                    })
-                                                )
+                                                    });
+                                                })
                                                 .catch(() =>
                                                     toastAlert(
                                                         "失败",
@@ -298,25 +302,31 @@ export default class userPortal extends Component {
                         {
                             novice: {
                                 text: `手环配对`,
-                                click: (e) => {
+                                click: (_) => {
                                     pairDevice(
-                                        "BT",
-                                        (e) =>
-                                            toastAlert(
-                                                "提示",
-                                                `收到资料：${new TextDecoder(
-                                                    "utf-8"
-                                                ).decode(e.target.value)}`,
-                                                "info",
-                                                1000
-                                            ),
-                                        (_) =>
+                                        BluetoothConfig.filters,
+                                        BluetoothConfig.service,
+                                        BluetoothConfig.characteristic,
+                                        (e) => {
+                                            console.log(
+                                                new TextDecoder().decode(
+                                                    e.target.value
+                                                )
+                                            );
+                                        },
+                                        (_) => {
                                             toastAlert(
                                                 "注意",
                                                 "设备刚刚掉线了",
                                                 "warning",
                                                 1000
-                                            )
+                                            );
+                                            this.setState({
+                                                bluethOn: false,
+                                                bluethDevice: null,
+                                            });
+                                            this.props.setBluethDevice(null);
+                                        }
                                     )
                                         .then((dev) => {
                                             toastAlert(
@@ -325,15 +335,13 @@ export default class userPortal extends Component {
                                                 "success",
                                                 1000
                                             );
-                                            dev.characteristic.writeValueWithoutResponse(
-                                                new TextEncoder("utf-8").encode(
-                                                    new Date() + " - Test\r\n"
-                                                )
-                                            );
                                             this.setState({
                                                 bluethOn: true,
                                                 bluethDevice: dev,
                                             });
+                                            this.props.setBluethDevice(dev);
+                                            this.setBlock("bluetooth", false);
+                                            this.setBlock("final", true);
                                         })
                                         .catch(() =>
                                             toastAlert(
@@ -347,25 +355,31 @@ export default class userPortal extends Component {
                             },
                             common: {
                                 text: `手环配对`,
-                                click: (e) => {
+                                click: (_) => {
                                     pairDevice(
-                                        "BT",
-                                        (e) =>
-                                            toastAlert(
-                                                "提示",
-                                                `收到资料：${new TextDecoder(
-                                                    "utf-8"
-                                                ).decode(e.target.value)}`,
-                                                "info",
-                                                1000
-                                            ),
-                                        (_) =>
+                                        BluetoothConfig.filters,
+                                        BluetoothConfig.service,
+                                        BluetoothConfig.characteristic,
+                                        (e) => {
+                                            console.log(
+                                                new TextDecoder().decode(
+                                                    e.target.value
+                                                )
+                                            );
+                                        },
+                                        (_) => {
                                             toastAlert(
                                                 "注意",
                                                 "设备刚刚掉线了",
                                                 "warning",
                                                 1000
-                                            )
+                                            );
+                                            this.setState({
+                                                bluethOn: false,
+                                                bluethDevice: null,
+                                            });
+                                            this.props.setBluethDevice(null);
+                                        }
                                     )
                                         .then((dev) => {
                                             toastAlert(
@@ -374,15 +388,13 @@ export default class userPortal extends Component {
                                                 "success",
                                                 1000
                                             );
-                                            dev.characteristic.writeValueWithoutResponse(
-                                                new TextEncoder("utf-8").encode(
-                                                    new Date() + " - Test\r\n"
-                                                )
-                                            );
                                             this.setState({
                                                 bluethOn: true,
                                                 bluethDevice: dev,
                                             });
+                                            this.props.setBluethDevice(dev);
+                                            this.setBlock("bluetooth", false);
+                                            this.setBlock("final", true);
                                         })
                                         .catch(() =>
                                             toastAlert(
@@ -395,33 +407,104 @@ export default class userPortal extends Component {
                                 },
                             },
                         },
+                    ],
+                },
+                {
+                    id: "final",
+                    text: [
+                        {
+                            novice: `✨ 让我们定一个专注目标<br />`,
+                            common: `✨ 让我们定一个专注目标<br />`,
+                        },
+                        {
+                            novice: `在设定的时间内 ⏰<br />`,
+                            common: `在设定的时间内 ⏰<br />`,
+                        },
+                        {
+                            novice: `🤫 你只能在摄像头范围内<br />`,
+                            common: `🤫 你只能在摄像头范围内<br />`,
+                        },
+                        {
+                            novice: `可不要睡着了 👀<br />`,
+                            common: `可不要睡着了 👀<br />`,
+                        },
+                    ],
+                    button: [
                         {
                             novice: {
-                                text: `测试数据`,
-                                click: (e) => {
-                                    if (this.state.bluethOn) {
-                                        this.state.bluethDevice.characteristic.writeValueWithoutResponse(
-                                            new TextEncoder("utf-8").encode(
-                                                new Date() + "\r\n"
+                                text: `设定目标`,
+                                click: (_) => {
+                                    inputAlert(
+                                        "设定目标",
+                                        "设定一个要专注的时长，以分钟为单位，最小 10 分钟，最大 120 分钟",
+                                        "number",
+                                        (value) => {
+                                            if (value < 10 || value > 120) {
+                                                errorAlert(
+                                                    `错误`,
+                                                    `时长最小 10 分钟，最大 120 分钟，目标不要太小或太大喔`
+                                                );
+                                            } else {
+                                                this.setState({
+                                                    focusDuration: value,
+                                                });
+                                                this.props.setFocusDuration(
+                                                    value
+                                                );
+                                            }
+                                        }
+                                    ).then(
+                                        (_) =>
+                                            this.state.focusDuration !== 0 &&
+                                            timerAlert(
+                                                `提示`,
+                                                `向导结束，正在保存数据，页面将在几秒钟后跳转...`,
+                                                2000,
+                                                () =>
+                                                    redirectRouter(
+                                                        "/v1/single",
+                                                        false
+                                                    )
                                             )
-                                        );
-                                    } else {
-                                        errorAlert(`错误`, `请先配对手环`);
-                                    }
+                                    );
                                 },
                             },
                             common: {
-                                text: `测试数据`,
-                                click: (e) => {
-                                    if (this.state.bluethOn) {
-                                        this.state.bluethDevice.characteristic.writeValueWithoutResponse(
-                                            new TextEncoder("utf-8").encode(
-                                                new Date() + "\r\n"
+                                text: `设定目标`,
+                                click: (_) => {
+                                    inputAlert(
+                                        "设定目标",
+                                        "设定一个要专注的时长，以分钟为单位，最小 10 分钟，最大 120 分钟",
+                                        "number",
+                                        (value) => {
+                                            if (value < 10 || value > 120) {
+                                                errorAlert(
+                                                    `错误`,
+                                                    `时长最小 10 分钟，最大 120 分钟，目标不要太小或太大喔`
+                                                );
+                                            } else {
+                                                this.setState({
+                                                    focusDuration: value,
+                                                });
+                                                this.props.setFocusDuration(
+                                                    value
+                                                );
+                                            }
+                                        }
+                                    ).then(
+                                        (_) =>
+                                            this.state.focusDuration !== 0 &&
+                                            timerAlert(
+                                                `提示`,
+                                                `向导结束，正在保存数据，页面将在几秒钟后跳转...`,
+                                                2000,
+                                                () =>
+                                                    redirectRouter(
+                                                        "/v1/single",
+                                                        false
+                                                    )
                                             )
-                                        );
-                                    } else {
-                                        errorAlert(`错误`, `请先配对手环`);
-                                    }
+                                    );
                                 },
                             },
                         },
@@ -577,3 +660,29 @@ export default class userPortal extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        bluethDevice: state.bluethDevice,
+        focusDuration: state.focusDuration,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setBluethDevice: (e) => {
+            dispatch({
+                type: "SET_BLUETH_DEVICE",
+                payload: e,
+            });
+        },
+        setFocusDuration: (e) => {
+            dispatch({
+                type: "SET_FOCUS_DURATION",
+                payload: e,
+            });
+        },
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(userPortal);

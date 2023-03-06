@@ -6,7 +6,7 @@ const successAlert = (title, html) => {
         title: title,
         html: html,
         icon: "success",
-        confirmButtonText: "确定",
+        confirmButtonText: "确认",
         allowOutsideClick: false,
     });
 };
@@ -17,7 +17,7 @@ const errorAlert = (title, html) => {
         title: title,
         html: html,
         icon: "error",
-        confirmButtonText: "确定",
+        confirmButtonText: "确认",
         allowOutsideClick: false,
     });
 };
@@ -28,7 +28,7 @@ const warningAlert = (title, html) => {
         title: title,
         html: html,
         icon: "warning",
-        confirmButtonText: "确定",
+        confirmButtonText: "确认",
         allowOutsideClick: false,
     });
 };
@@ -39,7 +39,7 @@ const infoAlert = (title, html) => {
         title: title,
         html: html,
         icon: "info",
-        confirmButtonText: "确定",
+        confirmButtonText: "确认",
         allowOutsideClick: false,
     });
 };
@@ -95,10 +95,9 @@ const toastAlert = (title, html, icon, timer) => {
     const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
-        showConfirmButton: false,
-        allowOutsideClick: false,
         timer: timer,
         timerProgressBar: true,
+        showConfirmButton: false,
         didOpen: (toast) => {
             toast.addEventListener("mouseenter", Swal.stopTimer);
             toast.addEventListener("mouseleave", Swal.resumeTimer);
@@ -111,6 +110,52 @@ const toastAlert = (title, html, icon, timer) => {
     });
 };
 
+// 选择提示框
+const selectAlert = (title, html, input, inputOptions, callback) => {
+    return Swal.fire({
+        title: title,
+        html: html,
+        input: input,
+        inputOptions: inputOptions,
+        inputPlaceholder: "请选择",
+        showCancelButton: false,
+        allowOutsideClick: false,
+        inputValidator: (value) => {
+            if (!value) {
+                return "请选择";
+            }
+        },
+    }).then((result) => {
+        if (result.value) {
+            callback(result.value);
+        }
+    });
+};
+
+// 输入提示框
+const inputAlert = (title, html, input, callback) => {
+    return Swal.fire({
+        title: title,
+        html: html,
+        input: input,
+        inputAttributes: {
+            autocapitalize: "off",
+        },
+        confirmButtonText: "确认",
+        showCancelButton: false,
+        allowOutsideClick: false,
+        inputValidator: (value) => {
+            if (!value) {
+                return "请输入有效的值";
+            }
+        },
+    }).then((result) => {
+        if (result.value) {
+            callback(result.value);
+        }
+    });
+};
+
 export {
     successAlert,
     errorAlert,
@@ -119,4 +164,6 @@ export {
     confirmAlert,
     timerAlert,
     toastAlert,
+    selectAlert,
+    inputAlert,
 };

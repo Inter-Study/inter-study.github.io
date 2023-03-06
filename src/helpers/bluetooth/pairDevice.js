@@ -1,21 +1,21 @@
 // 蓝牙手环设备配对
 const pairDevice = async (
-    prefix,
+    filters,
+    _service,
+    _characteristic,
     onNotificationCallback,
     onDisconnectCallback
 ) => {
     return await navigator.bluetooth
         .requestDevice({
-            filters: [{ namePrefix: prefix }],
-            optionalServices: ["0000ffe0-0000-1000-8000-00805f9b34fb"],
+            filters: filters,
+            optionalServices: [_service],
         })
         .then(async (dev) => {
             const server = await dev.gatt.connect();
-            const service = await server.getPrimaryService(
-                "0000ffe0-0000-1000-8000-00805f9b34fb"
-            );
+            const service = await server.getPrimaryService(_service);
             const characteristic = await service.getCharacteristic(
-                "0000ffe1-0000-1000-8000-00805f9b34fb"
+                _characteristic
             );
 
             dev.addEventListener(
