@@ -26,7 +26,7 @@ class singleMode extends Component {
             faceApiTimer: null,
             faceApiInterval: 1000,
             faceApiCounter: [0, 0],
-            faceApiThreshold: 20,
+            faceApiThreshold: 10,
         };
     }
 

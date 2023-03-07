@@ -1,4 +1,4 @@
-import * as faceapi from "face-api.js";
+import * as faceapi from "@vladmandic/face-api";
 
 // 从指定路径加载模型
 const loadModel = async (path) => {

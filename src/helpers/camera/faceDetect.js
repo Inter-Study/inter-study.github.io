@@ -1,4 +1,4 @@
-import * as faceapi from "face-api.js";
+import * as faceapi from "@vladmandic/face-api";
 
 // 人脸辨识
 const faceDetect = async (webcamRef) => {
